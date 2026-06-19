@@ -124,10 +124,9 @@
         </span>
     </div>
 
-    <nav class="sticky top-0 bg-base/90 backdrop-blur-md border-b border-sageLight/50 z-40 transition-all shadow-sm">
+    <nav class="sticky top-0 bg-base/90 backdrop-blur-md border-b border-sageLight/50 z-40 transition-all shadow-sm relative">
         <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
             
-            <!-- Logo Clínico -->
             <div class="font-semibold text-xl tracking-tight text-textDark flex items-center gap-2 cursor-pointer" onclick="switchTab('inicio')">
                 <div class="w-8 h-8 rounded-full bg-sageLight flex items-center justify-center text-sage">
                     <i class="fa-solid fa-leaf"></i>
@@ -135,21 +134,27 @@
                 Dra. Laura Montes
             </div>
 
-            <!-- Menú Pestañas Desktop -->
             <div class="hidden md:flex gap-8 items-center text-textMuted font-medium text-sm">
                 <button onclick="switchTab('inicio')" class="nav-link active hover:text-textDark transition-colors" data-target="inicio">Inicio</button>
                 <button onclick="switchTab('aula')" class="nav-link hover:text-textDark transition-colors" data-target="aula">Recursos y Cursos</button>
                 <button onclick="switchTab('video')" class="nav-link hover:text-textDark transition-colors" data-target="video">Mi Panel (Videoconsulta)</button>
             </div>
 
-            <!-- CTA Secundario Navegación -->
             <button onclick="switchTab('inicio'); setTimeout(() => document.getElementById('reservar').scrollIntoView({behavior: 'smooth'}), 100);" class="hidden md:inline-block bg-white border border-sageLight text-textDark hover:bg-sageLight px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm">
                 Agendar Cita
             </button>
 
-            <!-- Menú Móvil (Hamburguesa simulación) -->
-            <button class="md:hidden text-textDark text-xl">
+            <button onclick="toggleMobileMenu()" class="md:hidden text-textDark text-xl">
                 <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+
+        <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-base border-b border-sageLight/50 shadow-lg flex-col px-6 py-4 gap-4 z-50">
+            <button onclick="switchTab('inicio'); toggleMobileMenu();" class="text-left font-medium text-textDark border-b border-sageLight/30 py-2">Inicio</button>
+            <button onclick="switchTab('aula'); toggleMobileMenu();" class="text-left font-medium text-textDark border-b border-sageLight/30 py-2">Recursos y Cursos</button>
+            <button onclick="switchTab('video'); toggleMobileMenu();" class="text-left font-medium text-textDark border-b border-sageLight/30 py-2">Mi Panel (Videoconsulta)</button>
+            <button onclick="switchTab('inicio'); toggleMobileMenu(); setTimeout(() => document.getElementById('reservar').scrollIntoView({behavior: 'smooth'}), 100);" class="bg-textDark text-white px-6 py-2 rounded-full text-sm font-medium w-max mt-2 shadow-sm">
+                Agendar Cita
             </button>
         </div>
     </nav>
