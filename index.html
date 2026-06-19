@@ -663,6 +663,14 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // LÓGICA PARA EL MENÚ MÓVIL (JS)
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            // Intercambiamos las clases para mostrarlo/ocultarlo
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+        }
+
         // LÓGICA DEL ACORDEÓN DE PREGUNTAS FRECUENTES
         function toggleFaq(button) {
             // Encuentra la respuesta correspondiente (el elemento hermano siguiente)
