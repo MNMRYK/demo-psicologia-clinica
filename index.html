@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dra. Laura Montes | Psicología Clínica y Psicoterapia</title>
+    <meta name="description" content="Psicología clínica online. Terapia segura, empática y orientada a soluciones para gestionar la ansiedad, depresión y autoestima.">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter (Limpia, legible y segura) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome para iconos sutiles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                    },
+                    colors: {
+                        /* Paleta de colores: Neutros, Azules Suaves y Verde Salvia */
+                        base: '#FDFBF7',        /* Blanco hueso muy suave para el fondo principal */
+                        sage: '#A3B1A6',        /* Verde salvia (calma, naturaleza) */
+                        sageLight: '#E2E8E4',   /* Salvia muy claro para fondos de secciones */
+                        blueSoft: '#8AA3B3',    /* Azul cielo agrisado (confianza, serenidad) */
+                        blueLight: '#E8EDF0',   /* Azul muy claro */
+                        textDark: '#2C3A3B',    /* Verde/Gris muy oscuro para textos (menos agresivo que el negro puro) */
+                        textMuted: '#5E7071',   /* Gris verdoso para textos secundarios */
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 40px -10px rgba(163, 177, 166, 0.2)', /* Sombra suave teñida de salvia */
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #2C3A3B;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Ocultar barra de scroll para un look más limpio, pero permitir el scroll */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #FDFBF7; }
+        ::-webkit-scrollbar-thumb { background: #E2E8E4; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #A3B1A6; }
+
+        /* Lógica visual de la Single Page Application (Pestañas) */
+        .tab-content {
+            display: none; /* Ocultamos todas por defecto */
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+        .tab-content.active {
+            display: block; /* Solo mostramos la activa */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos para el estado activo de los botones de navegación */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #A3B1A6; /* Verde salvia */
+            transition: width 0.3s ease;
+        }
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* Acordeón FAQs */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            opacity: 0;
+        }
+        .faq-answer.open {
+            max-height: 500px; /* Suficiente para el contenido */
+            opacity: 1;
+        }
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+        .faq-icon.open {
+            transform: rotate(180deg);
+        }
+
+        /* Checkbox calendario simulado */
+        input[type="radio"] {
+            accent-color: #8AA3B3;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+
+    <div class="bg-blueLight text-textMuted text-xs py-2 px-6 flex flex-col sm:flex-row justify-center items-center gap-2 sm:gap-6 border-b border-blueSoft/20 z-50 relative">
+        <span class="flex items-center gap-2 font-medium">
+            <i class="fa-solid fa-id-card text-blueSoft"></i> Nº Colegiada: M-12345
+        </span>
+        <span class="hidden sm:inline text-blueSoft/30">|</span>
+        <span class="flex items-center gap-2 font-medium">
+            <i class="fa-solid fa-lock text-sage"></i> Privacidad Absoluta y Cifrado Seguro (RGPD)
+        </span>
+    </div>
+
+    <nav class="sticky top-0 bg-base/90 backdrop-blur-md border-b border-sageLight/50 z-40 transition-all shadow-sm">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            
+            <!-- Logo Clínico -->
+            <div class="font-semibold text-xl tracking-tight text-textDark flex items-center gap-2 cursor-pointer" onclick="switchTab('inicio')">
+                <div class="w-8 h-8 rounded-full bg-sageLight flex items-center justify-center text-sage">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                Dra. Laura Montes
+            </div>
+
+            <!-- Menú Pestañas Desktop -->
+            <div class="hidden md:flex gap-8 items-center text-textMuted font-medium text-sm">
+                <button onclick="switchTab('inicio')" class="nav-link active hover:text-textDark transition-colors" data-target="inicio">Inicio</button>
+                <button onclick="switchTab('aula')" class="nav-link hover:text-textDark transition-colors" data-target="aula">Recursos y Cursos</button>
+                <button onclick="switchTab('video')" class="nav-link hover:text-textDark transition-colors" data-target="video">Mi Panel (Videoconsulta)</button>
+            </div>
+
+            <!-- CTA Secundario Navegación -->
+            <button onclick="switchTab('inicio'); setTimeout(() => document.getElementById('reservar').scrollIntoView({behavior: 'smooth'}), 100);" class="hidden md:inline-block bg-white border border-sageLight text-textDark hover:bg-sageLight px-5 py-2 rounded-full text-sm font-medium transition-all shadow-sm">
+                Agendar Cita
+            </button>
+
+            <!-- Menú Móvil (Hamburguesa simulación) -->
+            <button class="md:hidden text-textDark text-xl">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+
+        <!-- ================= PESTAÑA 1: INICIO ================= -->
+        <div id="inicio" class="tab-content active">
+            
+            <section class="relative px-6 py-20 lg:py-32 max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 overflow-hidden">
+                <!-- Decoración de fondo suave -->
+                <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-blueLight rounded-full mix-blend-multiply filter blur-[80px] opacity-50 -z-10 translate-x-1/3 -translate-y-1/4"></div>
+
+                <div class="md:w-1/2 relative z-10 text-center md:text-left">
+                    <span class="inline-block bg-sageLight text-textDark px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase mb-6">
+                        Psicología Clínica Online
+                    </span>
+                    <h1 class="text-4xl lg:text-6xl font-bold text-textDark leading-tight mb-6">
+                        Te ayudo a recuperar el control y gestionar la ansiedad en tu día a día.
+                    </h1>
+                    <p class="text-lg font-light text-textMuted leading-relaxed mb-8 max-w-lg mx-auto md:mx-0">
+                        Un espacio seguro y libre de juicios donde entender tus emociones, desarrollar herramientas prácticas y volver a tomar las riendas de tu bienestar emocional. A tu propio ritmo.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                        <button onclick="document.getElementById('reservar').scrollIntoView({behavior: 'smooth'})" class="bg-sage hover:bg-textDark text-white px-8 py-4 rounded-full text-center font-medium transition-colors duration-300 shadow-md">
+                            Reserva tu primera sesión
+                        </button>
+                        <button onclick="switchTab('aula')" class="bg-white text-textDark border border-sageLight hover:border-sage px-8 py-4 rounded-full text-center font-medium transition-colors duration-300">
+                            Explorar recursos gratuitos
+                        </button>
+                    </div>
+                </div>
+
+                <div class="md:w-1/2 relative z-10 w-full max-w-md mx-auto">
+                    <!-- Imagen simulada con forma orgánica -->
+                    <div class="aspect-[4/5] rounded-[2rem] overflow-hidden shadow-soft border border-sageLight bg-white relative">
+                         <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Dra. Laura Montes en consulta" class="w-full h-full object-cover">
+                         <div class="absolute bottom-6 left-6 right-6 bg-white/90 backdrop-blur-sm p-4 rounded-xl border border-white shadow-sm">
+                             <p class="text-sm font-medium text-textDark">"La terapia no es para quienes están rotos, es para quienes quieren construirse."</p>
+                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="bg-sageLight/30 py-20 px-6">
+                <div class="max-w-4xl mx-auto text-center">
+                    <h2 class="text-3xl font-bold text-textDark mb-6">Hola, soy Laura.</h2>
+                    <p class="text-lg font-light text-textMuted leading-relaxed mb-10 max-w-3xl mx-auto">
+                        Entiendo perfectamente lo abrumador que puede ser dar el primer paso para ir a terapia. Mi enfoque clínico es integrador y transparente: trabajaremos en equipo, estableciendo objetivos claros y brindándote herramientas tangibles desde la primera sesión. No solo te escucho; te acompaño activamente.
+                    </p>
+                    
+                    <div class="flex flex-wrap justify-center gap-4 text-sm text-textDark font-medium">
+                        <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-sageLight flex items-center gap-2">
+                            <i class="fa-solid fa-graduation-cap text-sage"></i> Licenciada en Psicología (UCM)
+                        </div>
+                        <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-sageLight flex items-center gap-2">
+                            <i class="fa-solid fa-certificate text-sage"></i> Máster en Psicología Clínica
+                        </div>
+                        <div class="bg-white px-4 py-2 rounded-lg shadow-sm border border-sageLight flex items-center gap-2">
+                            <i class="fa-solid fa-brain text-sage"></i> Especialista TCC y Terapias de Tercera Generación
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-20 px-6 max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-3xl font-bold text-textDark mb-4">Áreas de Intervención</h2>
+                    <p class="text-textMuted font-light">Especialidades clínicas orientadas a adultos y adolescentes (+16 años).</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Servicio 1 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-soft border border-sageLight hover:border-sage transition-colors duration-300">
+                        <div class="w-12 h-12 bg-blueLight rounded-full flex items-center justify-center text-blueSoft text-xl mb-6">
+                            <i class="fa-solid fa-wind"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-textDark mb-3">Ansiedad y Estrés</h3>
+                        <p class="text-sm font-light text-textMuted mb-4 leading-relaxed">Gestión de ataques de pánico, estrés crónico, fobia social y pensamientos intrusivos.</p>
+                        <span class="text-xs font-semibold text-sage uppercase tracking-wider">Adultos / Adolescentes</span>
+                    </div>
+
+                    <!-- Servicio 2 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-soft border border-sageLight hover:border-sage transition-colors duration-300">
+                        <div class="w-12 h-12 bg-sageLight rounded-full flex items-center justify-center text-sage text-xl mb-6">
+                            <i class="fa-solid fa-cloud-sun"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-textDark mb-3">Estado de Ánimo</h3>
+                        <p class="text-sm font-light text-textMuted mb-4 leading-relaxed">Acompañamiento en procesos de depresión, apatía, duelos prolongados y desregulación emocional.</p>
+                        <span class="text-xs font-semibold text-sage uppercase tracking-wider">Adultos</span>
+                    </div>
+
+                    <!-- Servicio 3 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-soft border border-sageLight hover:border-sage transition-colors duration-300">
+                        <div class="w-12 h-12 bg-blueLight rounded-full flex items-center justify-center text-blueSoft text-xl mb-6">
+                            <i class="fa-solid fa-seedling"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-textDark mb-3">Autoestima</h3>
+                        <p class="text-sm font-light text-textMuted mb-4 leading-relaxed">Trabajo profundo sobre el síndrome del impostor, autoexigencia destructiva y dependencia emocional.</p>
+                        <span class="text-xs font-semibold text-sage uppercase tracking-wider">Adultos / Adolescentes</span>
+                    </div>
+
+                    <!-- Servicio 4 -->
+                    <div class="bg-white p-8 rounded-2xl shadow-soft border border-sageLight hover:border-sage transition-colors duration-300">
+                        <div class="w-12 h-12 bg-sageLight rounded-full flex items-center justify-center text-sage text-xl mb-6">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold text-textDark mb-3">Terapia de Pareja</h3>
+                        <p class="text-sm font-light text-textMuted mb-4 leading-relaxed">Mejora de la comunicación asertiva, gestión de crisis, celos y reestructuración del vínculo afectivo.</p>
+                        <span class="text-xs font-semibold text-sage uppercase tracking-wider">Parejas</span>
+                    </div>
+                </div>
+            </section>
+
+            <section id="reservar" class="bg-blueLight/30 py-20 px-6">
+                <div class="max-w-5xl mx-auto">
+                    <div class="text-center mb-16">
+                        <h2 class="text-3xl font-bold text-textDark mb-4">Un proceso sencillo y seguro</h2>
+                        <p class="text-textMuted font-light">Así comenzaremos a trabajar juntos.</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-3 gap-8 relative">
+                        <!-- Línea conectora visible en desktop -->
+                        <div class="hidden md:block absolute top-1/2 left-1/6 right-1/6 h-0.5 bg-sageLight -z-10 transform -translate-y-1/2"></div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-sageLight text-center relative z-10">
+                            <div class="w-10 h-10 bg-sage text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">1</div>
+                            <h3 class="font-semibold text-textDark mb-2">Reserva tu cita</h3>
+                            <p class="text-sm text-textMuted font-light">Elige la fecha y hora en el calendario inferior. El pago se realiza de forma 100% segura mediante tarjeta.</p>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-sageLight text-center relative z-10">
+                            <div class="w-10 h-10 bg-sage text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">2</div>
+                            <h3 class="font-semibold text-textDark mb-2">Evaluación Previa</h3>
+                            <p class="text-sm text-textMuted font-light">Recibirás un breve cuestionario confidencial para que pueda conocer tu contexto antes de vernos.</p>
+                        </div>
+
+                        <div class="bg-white p-8 rounded-2xl shadow-sm border border-sageLight text-center relative z-10">
+                            <div class="w-10 h-10 bg-sage text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">3</div>
+                            <h3 class="font-semibold text-textDark mb-2">Conéctate a la sesión</h3>
+                            <p class="text-sm text-textMuted font-light">Accede a tu 'Panel de Paciente' para entrar a la videollamada cifrada de extremo a extremo.</p>
+                        </div>
+                    </div>
+
+                    <!-- Botón para ir al simulador de Panel de Paciente -->
+                    <div class="mt-12 text-center">
+                         <button onclick="switchTab('video')" class="bg-textDark text-white px-8 py-4 rounded-full font-medium hover:bg-sage transition-colors shadow-md">
+                            Ir a mi Calendario / Panel de Paciente
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-20 px-6 max-w-4xl mx-auto">
+                <div class="bg-sage text-white rounded-[2rem] p-10 md:p-14 text-center shadow-soft relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -z-0"></div>
+                    
+                    <div class="relative z-10">
+                        <i class="fa-solid fa-headphones text-4xl mb-6 text-white/80"></i>
+                        <h2 class="text-3xl font-bold mb-4">¿Sientes que la ansiedad te sobrepasa ahora mismo?</h2>
+                        <p class="font-light text-white/90 mb-8 max-w-xl mx-auto">
+                            Descarga gratis mi audio-guía de 5 minutos con una técnica de respiración guiada diseñada clínicamente para frenar un ataque de pánico o un pico de ansiedad agudo.
+                        </p>
+                        
+                        <form onsubmit="event.preventDefault(); alert('Correo registrado. Audio-guía enviada.');" class="flex flex-col sm:flex-row gap-3 justify-center max-w-lg mx-auto">
+                            <input type="email" required placeholder="Tu correo electrónico" class="flex-grow px-6 py-4 rounded-full text-textDark focus:outline-none focus:ring-2 focus:ring-blueSoft shadow-inner">
+                            <button type="submit" class="bg-textDark hover:bg-blueSoft text-white px-8 py-4 rounded-full font-medium transition-colors whitespace-nowrap shadow-md">
+                                Descargar Audio
+                            </button>
+                        </form>
+                        <p class="text-xs text-white/60 mt-4"><i class="fa-solid fa-lock"></i> No enviamos spam. Privacidad garantizada.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-20 px-6 max-w-3xl mx-auto">
+                <h2 class="text-3xl font-bold text-textDark mb-10 text-center">Dudas Frecuentes</h2>
+                
+                <div class="space-y-4">
+                    <!-- FAQ 1 -->
+                    <div class="bg-white border border-sageLight rounded-xl overflow-hidden shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left font-semibold text-textDark flex justify-between items-center focus:outline-none hover:bg-base transition-colors">
+                            <span>¿Cuánto dura cada sesión y cuál es su precio?</span>
+                            <i class="fa-solid fa-chevron-down text-sage faq-icon"></i>
+                        </button>
+                        <div class="faq-answer px-6 bg-base">
+                            <p class="text-sm font-light text-textMuted pb-5 pt-2">
+                                Las sesiones individuales tienen una duración estandarizada de 55 minutos. El precio por sesión es de 65€. Si optas por un bono mensual (4 sesiones), el coste es de 240€. Las terapias de pareja duran 75 minutos y su precio es de 80€.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="bg-white border border-sageLight rounded-xl overflow-hidden shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left font-semibold text-textDark flex justify-between items-center focus:outline-none hover:bg-base transition-colors">
+                            <span>¿Trabajas con seguros médicos (Adeslas, Sanitas...)?</span>
+                            <i class="fa-solid fa-chevron-down text-sage faq-icon"></i>
+                        </button>
+                        <div class="faq-answer px-6 bg-base">
+                            <p class="text-sm font-light text-textMuted pb-5 pt-2">
+                                Actualmente opero como clínica privada independiente para poder garantizar la máxima calidad y tiempo en cada sesión, sin las restricciones de las aseguradoras. No obstante, si tu seguro tiene "poliza de reembolso", puedo emitir la factura correspondiente para que solicites la devolución parcial.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="bg-white border border-sageLight rounded-xl overflow-hidden shadow-sm">
+                        <button onclick="toggleFaq(this)" class="w-full px-6 py-5 text-left font-semibold text-textDark flex justify-between items-center focus:outline-none hover:bg-base transition-colors">
+                            <span>¿Cuál es la política de cancelación?</span>
+                            <i class="fa-solid fa-chevron-down text-sage faq-icon"></i>
+                        </button>
+                        <div class="faq-answer px-6 bg-base">
+                            <p class="text-sm font-light text-textMuted pb-5 pt-2">
+                                Entiendo que surgen imprevistos. Puedes cancelar o reprogramar tu sesión sin coste alguno avisando con al menos 24 horas de antelación. Las cancelaciones con menos de 24 horas o las inasistencias supondrán el cobro íntegro de la sesión, ya que ese espacio estaba reservado en exclusiva para ti.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="aula" class="tab-content py-12 px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-12">
+                    <span class="inline-block bg-blueLight text-blueSoft px-3 py-1 rounded-full text-xs font-semibold tracking-wider uppercase mb-4">
+                        Herramientas Autónomas
+                    </span>
+                    <h2 class="text-4xl font-bold text-textDark mb-4">Aula Virtual y Cursos</h2>
+                    <p class="text-textMuted font-light max-w-2xl mx-auto">Materiales psicoeducativos en vídeo diseñados para complementar tu proceso terapéutico o darte herramientas prácticas inmediatas.</p>
+                </div>
+
+                <!-- Grid de Cursos -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Tarjeta Curso 1 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-soft border border-sageLight flex flex-col group hover:-translate-y-1 transition-transform duration-300">
+                        <div class="h-48 relative overflow-hidden bg-sage">
+                            <!-- Placeholder image abstracta y tranquila -->
+                            <img src="https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80" alt="Meditación" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-textDark shadow-lg cursor-pointer hover:scale-110 transition-transform" onclick="alert('Iniciando reproductor de curso...')">
+                                    <i class="fa-solid fa-play ml-1"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-4 left-4 bg-white text-textDark text-xs font-semibold px-2 py-1 rounded">Ansiedad</span>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="text-xl font-semibold text-textDark mb-2">Regulación del Sistema Nervioso</h3>
+                            <p class="text-sm font-light text-textMuted mb-6 flex-grow line-clamp-3">Aprende ejercicios somáticos basados en evidencia para desactivar la respuesta de lucha o huida de tu cuerpo.</p>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-sage font-medium">Gratis para pacientes</span>
+                                <span class="text-textMuted text-xs"><i class="fa-regular fa-clock"></i> 45 min</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta Curso 2 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-soft border border-sageLight flex flex-col group hover:-translate-y-1 transition-transform duration-300">
+                        <div class="h-48 relative overflow-hidden bg-blueSoft">
+                            <img src="https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=600&q=80" alt="Escribiendo" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-textDark shadow-lg cursor-pointer hover:scale-110 transition-transform" onclick="alert('Iniciando reproductor de curso...')">
+                                    <i class="fa-solid fa-play ml-1"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-4 left-4 bg-white text-textDark text-xs font-semibold px-2 py-1 rounded">Autoestima</span>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="text-xl font-semibold text-textDark mb-2">Journaling Terapéutico</h3>
+                            <p class="text-sm font-light text-textMuted mb-6 flex-grow line-clamp-3">Guía práctica de escritura reflexiva para identificar patrones de pensamiento autocríticos y reprogramar el diálogo interno.</p>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-textDark font-medium">29€</span>
+                                <span class="text-textMuted text-xs"><i class="fa-regular fa-clock"></i> 1h 20m</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tarjeta Curso 3 -->
+                    <div class="bg-white rounded-2xl overflow-hidden shadow-soft border border-sageLight flex flex-col group hover:-translate-y-1 transition-transform duration-300">
+                        <div class="h-48 relative overflow-hidden bg-textMuted">
+                            <img src="https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?auto=format&fit=crop&w=600&q=80" alt="Plantas" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 flex items-center justify-center">
+                                <div class="w-14 h-14 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-textDark shadow-lg cursor-pointer hover:scale-110 transition-transform" onclick="alert('Iniciando reproductor de curso...')">
+                                    <i class="fa-solid fa-play ml-1"></i>
+                                </div>
+                            </div>
+                            <span class="absolute top-4 left-4 bg-white text-textDark text-xs font-semibold px-2 py-1 rounded">Relaciones</span>
+                        </div>
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="text-xl font-semibold text-textDark mb-2">Establecer Límites sin Culpa</h3>
+                            <p class="text-sm font-light text-textMuted mb-6 flex-grow line-clamp-3">Estrategias de comunicación asertiva para aprender a decir "no", proteger tu energía y mejorar tus vínculos afectivos.</p>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-textDark font-medium">45€</span>
+                                <span class="text-textMuted text-xs"><i class="fa-regular fa-clock"></i> 2h 15m</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div id="video" class="tab-content py-12 px-6">
+            <div class="max-w-5xl mx-auto">
+                
+                <div class="text-center mb-10">
+                    <h2 class="text-3xl font-bold text-textDark mb-2">Mi Panel de Paciente</h2>
+                    <p class="text-textMuted font-light">Tu espacio seguro para agendar y conectar.</p>
+                </div>
+
+                <div class="bg-white rounded-[2rem] shadow-soft border border-sageLight overflow-hidden">
+                    
+                    <!-- Cabecera del Panel -->
+                    <div class="bg-blueLight/30 p-8 border-b border-sageLight flex flex-col md:flex-row justify-between items-center gap-6">
+                        <div class="flex items-center gap-4">
+                            <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-2xl text-blueSoft shadow-sm border border-blueLight">
+                                <i class="fa-regular fa-user"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-semibold text-textDark">Bienvenida, Paciente Demo</h3>
+                                <p class="text-sm font-light text-textMuted">Terapia Individual Activa</p>
+                            </div>
+                        </div>
+                        
+                        <!-- BOTÓN GIGANTE VIDEOCONSULTA -->
+                        <div class="text-center w-full md:w-auto">
+                            <button onclick="alert('Conectando a sala segura encriptada...')" class="w-full md:w-auto bg-sage hover:bg-textDark text-white px-8 py-4 rounded-xl font-medium transition-colors shadow-md flex items-center justify-center gap-3 text-lg group">
+                                <i class="fa-solid fa-video group-hover:animate-pulse"></i> Entrar a tu videollamada segura
+                            </button>
+                            <p class="text-xs text-textMuted mt-2 flex items-center justify-center gap-1">
+                                <i class="fa-solid fa-shield-halved text-sage"></i> Conexión E2EE - Confidencialidad garantizada
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Sistema de Reservas Integrado -->
+                    <div class="p-8 md:p-12">
+                        <h4 class="text-lg font-semibold text-textDark mb-6">Agendar nueva sesión</h4>
+                        
+                        <div class="grid md:grid-cols-2 gap-12">
+                            
+                            <!-- Calendario Simulado UI -->
+                            <div>
+                                <div class="bg-base rounded-xl border border-sageLight p-6">
+                                    <div class="flex justify-between items-center mb-4 text-textDark font-medium">
+                                        <button class="hover:text-sage"><i class="fa-solid fa-chevron-left"></i></button>
+                                        <span>Octubre 2026</span>
+                                        <button class="hover:text-sage"><i class="fa-solid fa-chevron-right"></i></button>
+                                    </div>
+                                    <div class="grid grid-cols-7 gap-1 text-center text-xs text-textMuted mb-2 font-semibold">
+                                        <div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
+                                    </div>
+                                    <div class="grid grid-cols-7 gap-1 text-center text-sm text-textDark">
+                                        <div class="py-2 text-textMuted/40">28</div><div class="py-2 text-textMuted/40">29</div><div class="py-2 text-textMuted/40">30</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">1</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">2</div>
+                                        <div class="py-2 bg-sage text-white font-bold rounded-lg cursor-pointer shadow-sm">3</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">4</div>
+                                        
+                                        <!-- Completando la semana -->
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">5</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">6</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">7</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">8</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">9</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">10</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">11</div>
+                                        
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">12</div>
+                                        <div class="py-2 text-textMuted/40 line-through">13</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">14</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">15</div>
+                                        <div class="py-2 text-textMuted/40 line-through">16</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">17</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">18</div>
+
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">19</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">20</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">21</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">22</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">23</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">24</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">25</div>
+
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">26</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">27</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">28</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">29</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">30</div>
+                                        <div class="py-2 hover:bg-sageLight rounded-lg cursor-pointer transition-colors">31</div>
+                                        <div class="py-2 text-textMuted/40">1</div>
+                                    </div>
+                                    <div class="mt-4 flex items-center justify-center gap-4 text-xs font-light text-textMuted">
+                                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-sage rounded-full"></div> Seleccionado</span>
+                                        <span class="flex items-center gap-1"><div class="w-3 h-3 bg-base border border-sageLight rounded-full"></div> Disponible</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Horas y Confirmación -->
+                            <div class="flex flex-col">
+                                <p class="text-sm font-medium text-textDark mb-3">Horas para: <span class="text-sage">Jueves, 3 de Octubre</span></p>
+                                
+                                <div class="grid grid-cols-2 gap-3 mb-8">
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="hora" class="peer sr-only" required>
+                                        <div class="border border-sageLight rounded-lg text-center py-2 text-sm text-textMuted peer-checked:border-sage peer-checked:bg-sageLight/50 peer-checked:text-textDark peer-checked:font-medium transition-all hover:border-sage">10:00 h</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="hora" class="peer sr-only">
+                                        <div class="border border-sageLight rounded-lg text-center py-2 text-sm text-textMuted peer-checked:border-sage peer-checked:bg-sageLight/50 peer-checked:text-textDark peer-checked:font-medium transition-all hover:border-sage">12:30 h</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="hora" class="peer sr-only">
+                                        <div class="border border-sageLight rounded-lg text-center py-2 text-sm text-textMuted peer-checked:border-sage peer-checked:bg-sageLight/50 peer-checked:text-textDark peer-checked:font-medium transition-all hover:border-sage">16:00 h</div>
+                                    </label>
+                                    <label class="cursor-pointer">
+                                        <input type="radio" name="hora" class="peer sr-only">
+                                        <div class="border border-sageLight rounded-lg text-center py-2 text-sm text-textMuted peer-checked:border-sage peer-checked:bg-sageLight/50 peer-checked:text-textDark peer-checked:font-medium transition-all hover:border-sage">18:30 h</div>
+                                    </label>
+                                </div>
+
+                                <div class="mt-auto">
+                                    <button onclick="alert('¡Cita agendada correctamente! Te llegará un email de confirmación.')" class="w-full border-2 border-textDark text-textDark hover:bg-textDark hover:text-white px-6 py-3 rounded-xl font-medium transition-colors flex items-center justify-center gap-2">
+                                        <i class="fa-regular fa-calendar-check"></i> Confirmar Reserva
+                                    </button>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-textDark text-base py-12 mt-auto">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-8 mb-8 border-b border-textMuted/30 pb-8">
+                
+                <div>
+                    <div class="font-semibold text-xl tracking-tight text-white mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-leaf text-sage"></i> Dra. Laura Montes
+                    </div>
+                    <p class="text-sm font-light text-textMuted max-w-sm mb-4">Servicio de psicología sanitaria online. Colegiada M-12345. Atención a nivel internacional para hispanohablantes.</p>
+                    <div class="flex gap-4 text-textMuted">
+                        <a href="#" class="hover:text-white transition-colors">Términos Legales</a>
+                        <a href="#" class="hover:text-white transition-colors">Política de Privacidad (RGPD)</a>
+                    </div>
+                </div>
+
+                <!-- BLOQUE CRÍTICO: TELÉFONOS DE EMERGENCIA -->
+                <div class="bg-base/10 p-6 rounded-xl border border-red-400/20">
+                    <h4 class="text-white font-medium mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-red-400"></i> Importante: No es un servicio de emergencias
+                    </h4>
+                    <p class="text-xs font-light text-textMuted mb-4 leading-relaxed">
+                        Si te encuentras en una situación de crisis grave, riesgo vital inminente, o sientes que no puedes garantizar tu seguridad, por favor, busca ayuda inmediata:
+                    </p>
+                    <ul class="text-sm text-white font-medium space-y-2">
+                        <li><i class="fa-solid fa-phone text-sage mr-2"></i> Emergencias (España): <span class="text-sageLight">112</span></li>
+                        <li><i class="fa-solid fa-phone text-sage mr-2"></i> Línea de Atención a la Conducta Suicida: <span class="text-sageLight">024</span> (Gratuito y 24h)</li>
+                        <li><i class="fa-solid fa-hospital text-sage mr-2"></i> Acude a las urgencias del hospital más cercano.</li>
+                    </ul>
+                </div>
+
+            </div>
+            
+            <div class="text-center text-xs font-light text-textMuted">
+                &copy; 2026 Dra. Laura Montes. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // LÓGICA DE LA SINGLE PAGE APPLICATION (Cambio de pestañas)
+        function switchTab(tabId) {
+            // 1. Ocultar todos los contenidos de las pestañas
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // 2. Quitar el estado 'active' visual de todos los enlaces del menú
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active', 'text-textDark');
+                link.classList.add('text-textMuted');
+            });
+
+            // 3. Mostrar el contenido de la pestaña seleccionada
+            const targetContent = document.getElementById(tabId);
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
+
+            // 4. Resaltar visualmente el enlace seleccionado en el menú
+            const targetLink = document.querySelector(`.nav-link[data-target="${tabId}"]`);
+            if (targetLink) {
+                targetLink.classList.remove('text-textMuted');
+                targetLink.classList.add('active', 'text-textDark');
+            }
+
+            // 5. Hacer scroll suave hacia arriba (útil en móviles)
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // LÓGICA DEL ACORDEÓN DE PREGUNTAS FRECUENTES
+        function toggleFaq(button) {
+            // Encuentra la respuesta correspondiente (el elemento hermano siguiente)
+            const answer = button.nextElementSibling;
+            // Encuentra el icono dentro del botón
+            const icon = button.querySelector('.faq-icon');
+            
+            // Alterna las clases que abren/cierran la respuesta y giran el icono
+            answer.classList.toggle('open');
+            icon.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>
